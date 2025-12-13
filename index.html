@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Portfolio - Eleonora Fiorini</title>
 
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+<link rel="shortcut icon" href="favicon_io/favicon-v2.ico" >
+
   <!-- Bootstrap grid -->
   <link rel="stylesheet" href="bootstrap-grid copia.css">
   
@@ -12,6 +17,52 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Javascript 1 -->
+  <script>
+document.addEventListener("scroll", () => {
+    const header = document.querySelector(".site-header");
+    const video = document.querySelector(".big-img-wrapper video");
+
+    if (!header || !video) return;
+
+    const headerHeight = header.offsetHeight;
+    const videoRect = video.getBoundingClientRect();
+
+    /* Quanto il video va sotto l’header */
+    const overlap = headerHeight - videoRect.top;
+
+    if (overlap > 0) {
+        /* Fade progressivo */
+        let opacity = 1 - overlap / (headerHeight * 1.6);
+        opacity = Math.max(0.35, Math.min(1, opacity));
+        video.style.opacity = opacity;
+    } else {
+        video.style.opacity = 1;
+    }
+});
+</script>
+
+ <!-- Javascript 2 -->
+<script>
+(() => {
+  const viewport = document.querySelector('[data-cat-viewport]');
+  const prev = document.querySelector('[data-cat-prev]');
+  const next = document.querySelector('[data-cat-next]');
+  if (!viewport || !prev || !next) return;
+
+  /* Quando seleziono nell' head/foot er scrorre nella parte selezionata */
+
+  const slideBy = (dir) => {
+    const step = viewport.clientWidth * 0.9; // scorre quasi “una schermata”
+    viewport.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
+
+  prev.addEventListener('click', () => slideBy(-1));
+  next.addEventListener('click', () => slideBy(1));
+})();
+</script>
+<!------------------------------------------------------------------------->
 
   <!-- HEADER FISSO -->
   <header class="site-header">
@@ -28,12 +79,12 @@
           <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
           <label for="nav-toggle" class="nav-toggle-icon">&#9776;</label>
 
-          <!-- menu desktop / mobile -->
+          <!-- menu header desktop / mobile -->
           <nav class="nav-links">
-            <a href="#">Paper</a>
-            <a href="#">Projects</a>
-            <a href="#">Digital</a>
-            <a href="#">University</a>
+            <a href="#about">About me</a>
+            <a href="#works">Works selection</a>
+            <a href="#university">University projects</a>
+            <a href="#contacts">Contacts</a>
           </nav>
         </div>
       </div>
@@ -57,11 +108,11 @@
     </section>
 
     <!-- ABOUT -->
-    <section class="about-section">
+     <section id="about" class="about-section">
       <div class="container">
         <div class="row about-main">
           
-          <!-- testo -->
+          <!-- testo about me -->
           <div class="col-12 col-lg-5 about-left">
             <h2 class="about-title">About me</h2>
             <p class="about-text">
@@ -75,29 +126,52 @@
               stravagante e all’avanguardia come un immaginario molto stimolante nel processo
               creativo. Una spinta emozionale per me importantissima per trovare la giusta ispirazione.
             </p>
-            <a href="#" class="see-more">&gt; see more</a>
-          </div>
+            <a href="#" class="see-more">&gt; see CV</a>
 
-          <!-- ritratto affiancato (desktop) / sotto il testo (mobile) -->
+ <!-- PNG firma Eleonora Fiorini (desktop) -->   
+<div class="about-signature about-signature--desktop">
+  <img
+    src="imgs/Eleonora_Fiorini.png"
+    alt="Firma Eleonora Fiorini"
+    class="signature-img">
+</div>
+ </div>
+
+          <!-- foto ritratto e testo affiancato (desktop) / testo sotto (mobile) -->
           <div class="col-12 col-lg-7 about-portrait-col">
             <div class="portrait main-portrait">
               <img src="imgs/IMG_presentation.jpg" alt="Eleonora Fiorini" class="img-block">
+
+   <!-- PNG firma Eleonora Fiorini (mobile) -->   
+  <div class="about-signature about-signature--mobile">
+    <img
+      src="imgs/Eleonora_Fiorini.png"
+      alt="Firma Eleonora Fiorini"
+      class="signature-img">
+  </div>
+</div>
             </div>
           </div>
         </div>
 
-        <!-- BIG IMG sotto About (desktop e mobile)-->
+        <!-- BIG IMG (video fullscreen) sotto About (desktop e mobile)-->
         <div class="row about-big-img">
           <div class="col-12">
             <div class="big-img-wrapper">
-              <!-- grande foto orizzontale -->
-              <img src="imgs/Screenshot 2025-11-22 alle 18.06.15.png" alt="Big image" class="img-block">
-            </div>
+              <video class="video-bg" autoplay muted loop playsinline>
+
+                 <!-- grande video orizzontale cocorico' -->
+        <source src="imgs/VIDEO_COCCO.MP4" type="video/mp4">
+    </video>
+</div>
           </div>
         </div>
 
+        <!--  fine testo about me sotto video (sia desktop che mobile) -->
         <div class="col-12 col-lg-5 about-left">
             <p class="about-text">
+              <br>
+              <br>
              Da cio’ che realizzo voglio estrapolare quel senso di comfort romagnolo che ti da piacere nel restare e osservare.
              A partire dai miei primi elaborati rigorosamente cartacei, mi sono tuffata nelle discipline pittoriche. 
              Ho sperimentato diverse tecniche esprimendomi con un tratto forte, marcante  e deciso come la techno del Cocorico’.
@@ -107,91 +181,89 @@
              Spesso ho volontariamente riprodotto il gesto del “disegnare” dal tab del mio stesso laptop, abbracciando uno street style 
              che si sposava coerentemente al tema di progetto.
             </p>
-            <a href="#" class="see-more">&gt; see more</a>
+            <br>
           </div>
 
-
-        <!-- 3 CATEGORIE -->
-        <div class="row about-cats">
+        <!-- 3 pics Riccione (cocco-spiaggia-porto)-->
+        <div class="about-cats">
           <div class="col-12 col-md-4 cat-item">
             <div class="portrait cat-portrait">
-              <img src="imgs/IMG_logo_cocco.jpg" alt="Communication" class="img-block">
+             <img src="imgs/IMG_logo_cocco.jpg" alt="Communication" class="img-block">
             </div>
-            <h6>Communication</h6>
-            <a href="#" class="cat-link">&gt; see</a>
           </div>
           <div class="col-12 col-md-4 cat-item">
             <div class="portrait cat-portrait">
               <img src="imgs/IMG_spiaggia.jpg" alt="Web" class="img-block">
             </div>
-            <h6>Web</h6>
-            <a href="#" class="cat-link">&gt; see</a>
           </div>
           <div class="col-12 col-md-4 cat-item">
             <div class="portrait cat-portrait">
               <img src="imgs/IMG_porto.jpg" alt="Design" class="img-block">
             </div>
-            <h6>Design</h6>
-            <a href="#" class="cat-link">&gt; see</a>
           </div>
         </div>
-      </div>
+
+        <!-- PNG Welcome in my portfolio (sia desktop che mobile) -->
+        <img src="imgs/Welcome in my portfolio.png"
+             alt="Welcome Signature"
+             class="welcome-png">
+      </div> <!-- container -->
     </section>
 
    <!-- WORKS -->
-<section class="works-section">
+<section id="works" class="works-section">
   <div class="container">
-    <h2 class="section-title">Works selection</h2>
+    <h2 class="section-title"> Visual Works selection</h2>
   <div class="work-groups-row">
 
-      <!-- PAPER -->
+      <!-- paper works -->
       <div class="col-12 col-md-6 col-lg-3 work-group">
         <div class="work-images">
           <div class="work-img">
-            <img src="imgs/IMG_9539 copia.jpg" alt="Paper 1" class="img-block">
+            <img src="imgs/W.tigre.jpg" alt="Paper 1" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/IMG_9526 copia.jpg" alt="Paper 2" class="img-block">
+            <img src="imgs/W.panneggio.jpg" alt="Paper 2" class="img-block">
           </div>
         </div>
-        <h3 class="work-title">Paper</h3>
+        <h3 class="work-title">Drawings on paper</h3>
         <p class="work-text">
           Disegni di vario genere realizzati con tecniche miste, dalle matite ai carboncini, dai pennarelli all’olio.
         </p>
         <a href="#" class="work-link">&gt; see</a>
       </div>
 
-      <!-- PROJECTS -->
+      <!-- projects -->
       <div class="col-12 col-md-6 col-lg-3 work-group">
         <div class="work-images">
           <div class="work-img">
-            <img src="imgs/IMG_9540 copia.jpg" alt="Projects 1" class="img-block">
+            <img src="imgs/P.luce.jpg" alt="Projects 1" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/IMG_9541 copia.jpg" alt="Projects 2" class="img-block">
+            <img src="imgs/P.ombra.jpg" alt="Projects 2" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/IMG_9550 copia.jpg" alt="Projects 1" class="img-block">
+            <img src="imgs/P.violenza.jpg" alt="Projects 1" class="img-block">
           </div>
         </div>
-        <h3 class="work-title">Projects</h3>
+        <h3 class="work-title"> Themed Projects</h3>
         <p class="work-text">
           Tavole di disegno in formato A2 che mostrano i processi creativi ed evolutivi di un tema progettuale.
         </p>
         <a href="#" class="work-link">&gt; see</a>
       </div>
 
-      <!-- ANATOMIC STUDIES -->
+      <!-- anatomic studies -->
       <div class="col-12 col-md-6 col-lg-3 work-group">
         <div class="work-images">
           <div class="work-img">
-            <img src="imgs/IMG_9543 copia.jpg" alt="Anatomic 1" class="img-block">
+            <img src="imgs/W.mani.jpg" alt="Anatomic 1" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/IMG_9553 copia.jpg" alt="Anatomic 2" class="img-block">
+            <img src="imgs/W.cranio.jpg" alt="Anatomic 2" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/IMG_9535 copia.jpg" alt="Projects 1" class="img-block">
+            <img src="imgs/W.occhio.jpg" alt="Projects 1" class="img-block">
           </div>
         </div>
         <h3 class="work-title">Anatomic studies</h3>
@@ -201,101 +273,128 @@
         <a href="#" class="work-link">&gt; see</a>
       </div>
 
-      <!-- DIGITAL -->
+      <!-- digial works -->
       <div class="col-12 col-md-6 col-lg-3 work-group">
         <div class="work-images">
           <div class="work-img">
-            <img src="imgs/IMG_0791 copia.jpg" alt="Digital 1" class="img-block">
+            <img src="imgs/Mmusic.jpg" alt="Digital 1" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/black_VIBES copia.jpg" alt="Digital 2" class="img-block">
+            <img src="imgs/Vibe.jpg" alt="Digital 2" class="img-block">
           </div>
           <div class="work-img">
-            <img src="imgs/com.jpg" alt="Projects 1" class="img-block">
+            <img src="imgs/locandina_vibe.jpg" alt="Projects 1" class="img-block">
           </div>
         </div>
-        <h3 class="work-title">Digital</h3>
+        <h3 class="work-title">Digital Graphics</h3>
         <p class="work-text">
           Elaborati grafici realizzati per rappresentare organizzazioni o utenti sui social.
         </p>
         <a href="#" class="work-link">&gt; see</a>
+        <br>
       </div>
     </div>
   </div>
 </section>
 
-    <!-- UNIVERSITY CASE STUDY -->
-    <section class="uni-feature">
+     <!-- UNIVERSITY -->
+    <section id="university" class="uni-feature">
       <div class="container">
-        <div class="row align-items-center uni-main-row">
-          <!-- Testo -->
-          <div class="col-12 col-md-6 uni-text">
-            <p class="uni-text-label">IBRIDO 77</p>
-            <h2 class="uni-title">
-              Da cinema di<br>
-              quartiere ad hub<br>
-              di comunita’
-            </h2>
-            <p class="uni-description">
-              Progetto di comunicazione visiva per riqualificare 
-              l’ex cinema Astoria nel cuore di Rimini. Un nuovo nucleo
-              dinamico che celebra la diversita’.
-            </p>
-            <a href="#" class="see-more uni-see-more">&gt; see more</a>
-          </div>
-
-          <!-- Immagine a destra (desktop) / sotto (mobile) -->
-          <div class="col-12 col-md-6 uni-image">
-            <div class="portrait uni-portrait">
-              <img src="imgs/maneken-11AU096 copia.jpg"
-                   class="img-block"
-                   alt="Poster progetto Ibrido 77">
-            </div>
-          </div>
-        </div>
-
-        <!-- Link aggiuntivo sotto -->
-        <div class="row uni-more-row">
-  <!-- mobile: col-12; desktop: stessa colonna dell'immagine (6 colonne a destra) -->
-  <div class="col-12 col-md-6 offset-md-6 text-md-end">
-    <a href="#" class="uni-more-link">
-      &gt; find more university projects
-    </a>
+          <div class="row uni-main-row">
+  <div class="col-12 uni-head">
+    <h2 class="uni-title">UNIVERSITY PROJECTS</h2>
+    <p class="uni-text-label">swipe and explore the fields of study</p>
   </div>
-  </div>
+</div>
+      </div>
     </section>
+     <!-- carosello university projects/subjects -->
+    <section class="cat-carousel" aria-label="Carousel categorie">
+  <div class="cat-carousel__viewport" data-cat-viewport>
+    <div class="cat-carousel__track">
+
+      <a href="#" class="cat-slide">
+        <img src="imgs/mockup_ibr.jpg" alt="Categoria 1" class="cat-slide__img">
+        <div class="cat-slide__shade"></div>
+        <div class="cat-slide__title">COMMUNICATION DESIGN</div>
+      </a>
+      <a href="#" class="cat-slide">
+        <img src="imgs/Baddies_protectop.jpg" alt="Categoria 2" class="cat-slide__img">
+        <div class="cat-slide__shade"></div>
+        <div class="cat-slide__title">3D MODELING</div>
+      </a>
+      <a href="#" class="cat-slide">
+        <img src="imgs/modellino.jpg" alt="Categoria 3" class="cat-slide__img">
+        <div class="cat-slide__shade"></div>
+        <div class="cat-slide__title">ARCHITECTURE</div>
+      </a>
+      <a href="#" class="cat-slide">
+        <img src="imgs/Photography.jpg" alt="Categoria 4" class="cat-slide__img">
+        <div class="cat-slide__shade"></div>
+        <div class="cat-slide__title">PHOTOGRAPHY AND MULTIMEDIA</div>
+      </a>
+      <a href="#" class="cat-slide">
+        <img src="imgs/Geometry.jpg" alt="Categoria 5" class="cat-slide__img">
+        <div class="cat-slide__shade"></div>
+        <div class="cat-slide__title">GEOMETRY</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BACKGROUND da contacts a footer -->
+<section class="end-bg">
+
+<!-- CONTACTS -->
+<section id="contacts" class="contact-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 contact-inner">
+        <h2 class="contact-title">Get in touch</h2>
+        <div class="contact-links">
+          <a href="https://www.instagram.com/blondie_archive/?igsh=MWRqejhsM3ZuaWFnbA%3D%3D" target="_blank" class="contact-link">
+            Instagram · Professional
+          </a>
+          <a href="https://www.instagram.com/_elefiore/?igsh=MXNzMXljN3lvejJuMA%3D%3D" target="_blank" class="contact-link">
+            Instagram · Personal
+          </a>
+          <a href="mailto:fiorini_eleonora@libero.it" class="contact-link">
+            fiorini_eleonora@libero.it
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- FOOTER -->
     <footer class="site-footer">
       <div class="container">
         <div class="row footer-row">
+            <div class="col-12 col-md-8 footer-right">
+               <!-- menu footer desktop / mobile -->
+            <nav class="footer-nav">
+              <a href="#about">About me</a>
+              <a href="#works">Works selection</a>
+              <a href="#university">University projects
+             </a>
+            </nav>
+          </div>
+          <br>
           <div class="col-12 col-md-4 footer-left">
             <div class="footer-logo">
           <img src="imgs/EF.png" alt="Logo" class="logo-img-footer">
           </div>
           </div>
-            <div class="col-12 col-md-8 footer-right">
-            <nav class="footer-nav">
-              <a href="#">Paper</a>
-              <a href="#">Projects</a>
-              <a href="#">Digital</a>
-              <a href="#">University</a>
-            </nav>
-          </div>
-          <br>
-          <br>
-          <div class="col-12 col-md-4 footer-left">
-          </div>
-          <div class="col-12 col-md-4 footer-left">
             <div class="footer-meta">
               &copy; 2025<br>
               Privacy — Cookies
             </div>
           </div>
-        </div>
-      </div>
+          </div>
+        </section>
+        </main>
     </footer>
-  </main>
 </body>
 </html>
 

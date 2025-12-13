@@ -2,19 +2,30 @@
 :root{
   --bg:#000;
   --fg:#fff;
-  --font-main:"Helvetica Neue";
+  --font-main:"Helvetica Neue", Arial, sans-serif;
+
+  --header-h: clamp(48px, 6vw, 64px);
+  --container-pad: 1.5rem;
+
+  --border-soft: 1px solid rgba(255,255,255,0.18);
+  --border-med:  1px solid rgba(255,255,255,0.25);
+
+  --ls-sm: 0.14em;
+  --ls-md: 0.18em;
 }
 
-/* RESET / BASE */
+/* =========================================================
+   RESET / BASE
+   ========================================================= */
+
 *,
 *::before,
-*::after{
-  box-sizing:border-box;
-}
+*::after{ box-sizing:border-box; }
 
-html,body{
-  height:100%;
-}
+html, body{ height:100%; }
+
+/* comportamento smooth scrolling */
+html{ scroll-behavior:smooth; }
 
 body{
   margin:0;
@@ -28,25 +39,27 @@ a{
   color:inherit;
   text-decoration:none;
 }
+a:hover{ text-decoration:underline; }
 
-a:hover{
-  text-decoration:underline;
+/* evita che l’header fisso copra la sezione cliccata tra le voci menu */
+#about, #works, #university, #contact{
+  scroll-margin-top: var(--header-h);
 }
 
 /* IMMAGINI */
-
 .img-block{
   display:block;
   width:100%;
   height:auto;
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .site-header{
   position:fixed;
-  top:0;
-  left:0;
+  inset:0 0 auto 0;
   width:100%;
   z-index:999;
   background:#000;
@@ -56,25 +69,21 @@ a:hover{
 /* container a tutta larghezza per allineare con il footer */
 .site-header .container{
   max-width:100%;
-  padding-left:1.5rem;
-  padding-right:1.5rem;
+  padding-left:var(--container-pad);
+  padding-right:var(--container-pad);
 }
 
 .header-row{
-  height:clamp(48px, 6vw, 64px);
+  height:var(--header-h);
   display:flex;
   align-items:center;
-  justify-content:space-between; /* logo a sinistra, menu a destra */
+  justify-content:space-between; 
+  /* logo a sinistra, menu a destra (sia per header che footer) */
 }
 
 .header-left{
   display:flex;
   align-items:center;
-}
-
-.logo-mark{
-  font-size:clamp(1rem, 1.5vw, 1.4rem);
-  font-weight:700;
 }
 
 .header-right{
@@ -83,16 +92,26 @@ a:hover{
   align-items:center;
 }
 
-/* spazio sotto l’header */
+/* spazio sotto l’header per non coprire "helve... ...vacui"*/
 main{
-  padding-top:clamp(48px, 6vw, 64px);
+  padding-top:var(--header-h);
 }
 
-/* NAVBAR */
-
-.nav-col{
-  position:relative;
+/* LOGO HEADER */
+.logo-img{
+  display:block;
+  height:clamp(32px, 3.2vw, 52px);
+  width:auto;
+  transform-origin:center;
+  animation:logo-bounce-glow 2.6s ease-in-out infinite;
+  /* animazione pulse light logo EF */
 }
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.nav-col{ position:relative; }
 
 .nav-links{
   display:flex;
@@ -101,12 +120,10 @@ main{
   gap:1.4rem;
   font-size:0.8rem;
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:var(--ls-sm);
 }
 
-.nav-toggle-input{
-  display:none;
-}
+.nav-toggle-input{ display:none; }
 
 .nav-toggle-icon{
   display:none;
@@ -114,11 +131,40 @@ main{
   cursor:pointer;
 }
 
-/* HERO */
+/* NAV MOBILE (menu hamburger) */
+@media (max-width:575.98px){
+  .nav-toggle-icon{ display:inline-block; }
+
+  .nav-links{
+    position:absolute;
+    right:0;
+    top:100%;
+    margin-top:0.4rem;
+    padding:0.6rem 1.1rem;
+    background:#000;
+    border:var(--border-med);
+    border-radius:0.25rem;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0.45rem;
+    display:none;
+    z-index:900;
+  }
+
+  .nav-links a{ font-size:0.78rem; }
+
+  .nav-toggle-input:checked + .nav-toggle-icon + .nav-links{
+    display:flex;
+  }
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
 
 .hero-section{
   position:relative;
-  min-height:calc(100vh - 64px);
+  min-height:calc(100vh - var(--header-h));
   background-image:url("imgs/IMG_header.jpg");
   background-repeat:no-repeat;
   background-size:cover;
@@ -146,11 +192,14 @@ main{
   animation:hero-fade-in 0.9s ease-out 0.1s forwards;
 }
 
-/* ABOUT */
+/* =========================================================
+   ABOUT
+   ========================================================= */
 
 .about-section{
   padding:3.5rem 0 4rem;
   background:#000;
+  position:relative; /* serve per posizionare il PNG welcome.. all'interno */
 }
 
 /* layout controllato con flex */
@@ -173,7 +222,7 @@ main{
   font-size:clamp(1.3rem, 3vw, 1.9rem);
   font-weight:700;
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:var(--ls-sm);
   margin:0 0 1rem;
 }
 
@@ -187,13 +236,14 @@ main{
   display:inline-block;
   font-size:0.75rem;
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:var(--ls-sm);
   margin-top:0.5rem;
 }
 
-/* ritratto a destra */
+/* foto profilo a destra */
 .main-portrait{
   min-height:260px;
+  position:relative; /* serve per mandare la firma mobile sopra la foto */
 }
 
 .main-portrait .img-block{
@@ -202,15 +252,44 @@ main{
   object-fit:cover;
 }
 
-/* big image ( prima delle categorie) */
+/* big video ( prima delle categorie (foto Riccione)) */
 .big-img-wrapper{
   margin-top:2.5rem;
+}
+
+/* Video responsive: mantiene il centro in mobile */
+.big-img-wrapper video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:opacity 0.60s linear;
+  opacity:1; /* FULL OPACITY di default */
+}
+
+.video-fade{
+  opacity:0.40 /* OPACITY ridotta quando il vieo scrolla sotto header fisso */;
+}
+
+/* MOBILE – altezza più contenuta e taglio centrale */
+@media (max-width:768px){
+  .big-img-wrapper{
+    height:500px;
+    overflow:hidden;
+  }
+  .big-img-wrapper video{
+    height:100%;
+    width:auto;
+    object-fit:cover;
+    object-position:center;
+  }
 }
 
 .about-big-img{
   width:100%;
   overflow:hidden;
-  background:#000000;
+  background:#000;
 }
 
 .about-big-img img{
@@ -219,15 +298,47 @@ main{
   object-fit:cover;
 }
 
-/* CATEGORIE */
-/* layout di base: MOBILE
+/* FIRMA Eleonora Fiorini */
+.about-signature{
+  pointer-events:none;
+}
+.signature-img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* Firma sotto il testo in desktop */
+.about-signature--desktop{
+  margin-top:1.5rem;
+  max-width:300px; /* larghezza massima della firma */
+}
+
+/* Nascondi quella mobile sul desktop */
+.about-signature--mobile{ display:none; }
+
+@media (max-width:768px){
+  .about-signature--desktop{ display:none; }
+
+  .about-signature--mobile{
+    display:block;
+    position:absolute;
+    right:6%;
+    top:8%;
+    max-width:45%;
+  }
+}
+
+/* =========================================================
+  WORKS SELECTION CATEGORIES
+   ========================================================= */
+/* MOBILE:
    - 2 colonne (Communication + Web)
    - Design sotto, allineato alla colonna di sinistra
 */
-
 .about-cats{
-  display:grid;                
-  grid-template-columns: 1fr 1fr;
+  display:grid;
+  grid-template-columns:1fr 1fr;
   column-gap:2rem;
   row-gap:2rem;
   margin-top:2.5rem;
@@ -238,11 +349,10 @@ main{
   margin:0;
 }
 
-/* testi delle categorie più grandi e leggibili */
 .about-cats h6{
   font-size:clamp(1rem, 1.6vw, 1.35rem);
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:var(--ls-sm);
   margin:0.4rem 0 0.2rem;
 }
 
@@ -251,15 +361,14 @@ main{
   grid-column:1 / 2;
 }
 
-/* INGOMBRO immagini tutte uguali */
+/* immagini tutte uguali */
 .cat-portrait{
   width:100%;
   aspect-ratio:4 / 3;
   overflow:hidden;
-  background:#000000;
+  background:#000;
   margin-bottom:0.6rem;
 }
-
 .cat-portrait img{
   width:100%;
   height:100%;
@@ -267,45 +376,75 @@ main{
   display:block;
 }
 
-/* link */
+/* links SEE*/
 .cat-link{
   font-size:0.75rem;
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:var(--ls-sm);
 }
 
-/* ABOUT DESKTOP */
-
+/*----- ABOUT DESKTOP ------- */
 @media (min-width:992px){
-
   .about-left{
     width:40%;
     margin-bottom:0;
     padding-right:2rem;
   }
-
-  .about-portrait-col{
-    width:60%;
-  }
-
-  .main-portrait{
-    min-height:340px;
-  }
+  .about-portrait-col{ width:60%; }
+  .main-portrait{ min-height:340px; }
 
   .about-cats{
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns:repeat(3, 1fr);
     column-gap:1.5rem;
     margin-top:2.5rem;
   }
-
   .about-cats .cat-item:nth-child(3){
-    grid-column:auto;          /* in terza colonna */
+    grid-column:auto;
   }
 }
 
-/* WORKS */
+/* =========================================================
+   PNG "Welcome in my portfolio"
+   ========================================================= */
 
-/* sezione generale */
+.welcome-png{
+  position:absolute;
+  display:block;
+  width:40vw;
+  max-width:400px;
+  height:auto;
+  pointer-events:none;
+  opacity:1;
+  z-index:3;
+}
+
+/* VERSIONE DESKTOP – nello spazio nero a destra del paragrafo */
+@media (min-width:992px){
+  .welcome-png{
+    top:auto;
+    bottom:22%;
+    left:55%;
+    transform:none;
+    width:40vw;
+    max-width:500px;
+  }
+}
+
+/* VERSIONE TABLET / MOBILE – nello spazio nero a destra vicino a "Design" sopra WORKS */
+@media (max-width:991.98px){
+  .welcome-png{
+    bottom:5rem;
+    right:1.5%;
+    left:auto;
+    width:60vw;
+    max-width:280px;
+  }
+}
+
+/* =========================================================
+   WORKS
+   ========================================================= */
+
 .works-section{
   padding:3.5rem 0 4rem;
   position:relative;
@@ -314,11 +453,10 @@ main{
 .works-section .section-title{
   font-size:1rem;
   text-transform:uppercase;
-  letter-spacing:0.18em;
+  letter-spacing:var(--ls-md);
   margin:0 0 2rem;
 }
 
-/* descrizione di ciascun gruppo */
 .work-title{
   margin:0 0 0.35rem;
   font-size:0.9rem;
@@ -335,8 +473,8 @@ main{
 .work-link{
   font-size:0.75rem;
   text-transform:uppercase;
-  letter-spacing:0.14em;
-  color:#ffffff;
+  letter-spacing:var(--ls-sm);
+  color:#fff;
 }
 
 /* immagini dei lavori */
@@ -349,7 +487,7 @@ main{
 
 .work-img{
   flex:1;
-  background:#000000;
+  background:#000;
   overflow:hidden;
 }
 
@@ -358,26 +496,20 @@ main{
   height:100%;
   object-fit:cover;
   display:block;
-}
-
-/* piccolo hover sulle immagini */
-.work-img:hover img{
-  transform:scale(1.03);
   transition:transform 0.3s ease;
 }
-
-/* RESPONSIVE WORKS */
-
-/* Mobile: gruppi uno sotto l’altro */
-@media (max-width:575.98px){
-  .work-group{
-    margin-bottom:3rem;
-  }
+/* effetto hover zoom immagini lavori */
+.work-img:hover img{ 
+  transform:scale(1.03);
 }
 
-/* Desktop: 4 colonne, TESTI SOPRA, immagini sotto in colonna */
-@media (min-width:992px){
+/* VERSIONE MOBILE: gruppi uno sotto l’altro */
+@media (max-width:575.98px){
+  .work-group{ margin-bottom:3rem; }
+}
 
+/* VERSIONE DESKTOP: 4 colonne, TESTI SOPRA, immagini sotto in colonna */
+@media (min-width:992px){
   .work-groups-row{
     display:grid !important;
     grid-template-columns:repeat(4, 1fr);
@@ -385,6 +517,7 @@ main{
     width:100%;
   }
 
+  /* ogni gruppo in colonna */
   .work-group{
     display:flex;
     flex-direction:column;
@@ -392,7 +525,7 @@ main{
   }
 
   .work-images{
-    order:2;                  /* immagini dopo il testo */
+    order:2;
     flex-direction:column;
     margin-top:1.2rem;
     gap:1rem;
@@ -401,28 +534,18 @@ main{
   .work-img{
     width:100%;
     height:auto;
-  }
-
-  .work-img:nth-child(1),
-  .work-img:nth-child(2){
     flex:0 0 auto;
   }
 }
 
-/* SFUMATURA NERA in fondo (solo desktop) */
-
-/* SFUMATURA NERA: 
-   - mobile: nessuna
-   - tablet / small desktop: molto leggera
-   - desktop grande: forte */
-
+/* SFUMATURA NERA in fondo */
 .works-section::after{
   content:"";
   position:absolute;
   left:0;
   bottom:-2px;
   width:100%;
-  height:260px;                      
+  height:260px;
   pointer-events:none;
   background:linear-gradient(
     to bottom,
@@ -432,14 +555,12 @@ main{
   );
 }
 
-/* mobile: nessuna shadow */
+/* VERSIONE MOBILE: nessuna shadow */
 @media (max-width:575.98px){
-  .works-section::after{
-    display:none !important;
-  }
+  .works-section::after{ display:none !important; }
 }
 
-/* desktop grande: shadow più forte e alta */
+/* VERSIONE DESKTOP: shadow più forte e alta */
 @media (min-width:992px){
   .works-section::after{
     height:520px;
@@ -452,82 +573,198 @@ main{
   }
 }
 
-
-/* UNIVERSITY CASE STUDY */
-
-.uni-feature{
-  padding:3.5rem 0 4rem;
-  border-top:1px solid rgba(255,255,255,0.18);
-  background:#000;
-}
-
-.uni-main-row{
-  margin-bottom:2.5rem;
-}
-
-.uni-text-label{
-  font-size:0.75rem;
-  text-transform:uppercase;
-  letter-spacing:0.18em;
-  margin:0 0 0.8rem;
-}
-
-.uni-title{
-  font-size:clamp(1.7rem, 3vw, 2.3rem);
-  font-weight:700;
-  margin:0 0 1rem;
-  line-height:1.1;
-}
-
-.uni-text{
-  font-size:0.9rem;
-  max-width:26rem;
-  margin-bottom:1.2rem;
-}
-
-.uni-see-more{
-  margin-top:0.8rem;
-}
-
-.uni-more-link{
-  display:inline-block;
-  font-size:0.78rem;
-  text-transform:uppercase;
-  letter-spacing:0.18em;
-}
-
-/* immagine finale */
-.uni-more-row{
-  margin-top:2rem;
-}
-
-.uni-portrait{
-  background:#000000;
+/* Fullscreen media helper */
+.fullscreen-img{
+  width:100vw;
+  height:100vh;
   overflow:hidden;
+  position:relative;
+}
+.fullscreen-img img{
+  width:100%;
+  height:50%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
 }
 
-.uni-portrait img{
+/* =========================================================
+   CAROSELLO UNIVERSITY PROJECTS  
+   ========================================================= */
+
+   /* contenitore principale carosello */
+.cat-carousel{
+  position:relative;
+  margin: clamp(2rem, 5vw, 4rem) 0;
+}
+
+/* viewport scrollabile con snap */
+.cat-carousel__viewport{
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+
+.cat-carousel__viewport::-webkit-scrollbar{ display:none; }
+
+/* track con slide in fila */
+.cat-carousel__track{
+  display:flex;
+  gap: clamp(12px, 2vw, 18px);
+  padding: 0 clamp(16px, 3vw, 48px);
+}
+
+/* slide */
+.cat-slide{
+  position:relative;
+  flex: 0 0 clamp(260px, 45vw, 560px);
+  height: clamp(260px, 44vh, 520px);
+  overflow:hidden;
+  background:#111;
+  scroll-snap-align:start;
+  display:block;
+}
+
+/* immagini university fields slide */
+.cat-slide__img{
   width:100%;
   height:100%;
   object-fit:cover;
+  object-position:center;
+  display:block;
+  transform:scale(1);
+  transition: transform 600ms ease;
 }
 
-/* desktop: testo a sinistra, immagine a destra allineata */
-@media (min-width:768px){
-  .uni-text{
-    padding-right:2rem;
-    margin-bottom:0;
-  }
+/* SOLO DESKTOP: overlay sfumata nera con l'hover */
+.cat-slide__shade{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background: linear-gradient(to top,
+    rgba(0,0,0,0.7) 0%,
+    rgba(0,0,0,0.15) 45%,
+    rgba(0,0,0,0) 70%);
+  opacity:0;
+  transition: opacity 600ms ease;
+}
 
-  .uni-image{
-    margin-top:0;
+/* titolo university field slide */
+.cat-slide__title{
+  position:absolute;
+  left: clamp(14px, 2.2vw, 30px);
+  bottom: clamp(14px, 2.2vw, 28px);
+  margin:0;
+  text-transform:uppercase;
+  letter-spacing:var(--ls-sm);
+  font-weight:700;
+  font-size: clamp(0.95rem, 1.6vw, 1.35rem);
+  opacity:0;
+  transform: translateY(18px);
+  transition: opacity 600ms ease, transform 600ms ease;
+  max-width:85%;
+}
+
+/* SOLO DESKTOP: effetto hover sulle slide */
+@media (hover:hover){
+  .cat-slide:hover .cat-slide__img{ transform:scale(1.04); }
+  .cat-slide:hover .cat-slide__shade{ opacity:1; }
+  .cat-slide:hover .cat-slide__title{
+    opacity:0.95;
+    transform:translateY(0);
   }
 }
 
-/* FOOTER */
+/* SOLO MOBILE: titolo visibile (touch non ha hover) */
+@media (max-width:575.98px){
+  .cat-slide{
+    flex-basis:86vw;
+    height: clamp(240px, 42vh, 420px);
+  }
+  .cat-slide__shade{ opacity:0.9; }
+  .cat-slide__title{
+    opacity:0.95;
+    transform:translateY(0);
+  }
+}
 
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+
+.contact-section{
+  padding: clamp(4rem, 10vw, 7rem) 0;
+  background:#000;
+}
+
+/* layout contatti */
+.contact-inner{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+.contact-title{
+  margin:0;
+  text-transform:uppercase;
+  letter-spacing:var(--ls-md);
+  font-size:clamp(1.1rem, 2.6vw, 1.8rem);
+}
+
+/* link container */
+.contact-links{
+  display:flex;
+  flex-direction:column;
+  gap:1.2rem;
+}
+
+/* link style piu visibile */
+.contact-link{
+  position:relative;
+  display:inline-block;
+  width:fit-content;
+  font-size:clamp(1rem, 2vw, 1rem);
+  letter-spacing:var(--ls-sm);
+  text-transform:uppercase;
+  opacity:0.30;
+  transition:opacity .4s ease;
+}
+
+/* underline animata */
+.contact-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:100%;
+  height:1px;
+  background:#fff;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .45s ease;
+  opacity:0.30;
+}
+
+/* SOLO DESKTOP: hover effetti */
+@media (hover:hover){
+  .contact-link:hover{ opacity:1; }
+  .contact-link:hover::after{ transform:scaleX(1); }
+}
+
+@media (max-width:575.98px){
+  .contact-links{ gap:1.5rem; }
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+   /* container a tutta larghezza per allineare con l’header */
 .site-footer{
-  border-top:1px solid rgba(255,255,255,0.18);
+  border-top:var(--border-soft);
   padding:2.5rem 0 2rem;
   background:#000;
   font-size:0.8rem;
@@ -535,35 +772,41 @@ main{
 
 .site-footer .container{
   max-width:100%;
-  padding-left:1.5rem;
-  padding-right:1.5rem;
+  padding-left:var(--container-pad);
+  padding-right:var(--container-pad);
 }
 
-.footer-row{
-  row-gap:1.5rem;
-}
+.footer-row{ row-gap:1.5rem; }
 
+/* layout footer: logo + nav */
 .footer-logo{
   font-size:2rem;
   margin-bottom:0.5rem;
 }
 
-.footer-meta{
-  line-height:1.4;
+/* LOGO FOOTER */
+.logo-img-footer{
+  display:block;
+  height:clamp(20px, 2.2vw, 34px);
+  width:auto;
+  margin-bottom:1rem;
+  transform-origin:center;
+  animation:logo-bounce-glow 2.6s ease-in-out infinite;
 }
 
+.footer-meta{ line-height:1.4; }
+
+/* menu footer sia desktop che mobile */
 .footer-nav{
   display:flex;
   flex-wrap:wrap;
   gap:2.5rem;
   text-transform:uppercase;
-  letter-spacing:0.14em;
+  letter-spacing:var(--ls-sm);
   font-size:0.75rem;
 }
 
 /* RESPONSIVE FOOTER */
-
-/* mobile: nav sotto, bandiera a sinistra */
 @media (max-width:575.98px){
   .footer-row{
     flex-direction:column;
@@ -580,41 +823,59 @@ main{
     justify-content:flex-start;
     gap:1rem;
   }
+
+  /* LOGO EF in header leggermente più grande anche su mobile */
+  .logo-img{ height:36px; }
+  .logo-img-footer{ height:22px; }
 }
 
-/* tablet+ : logo + altri dati a sinistra, menu allineato a destra */
+/* FOOTER DESKTOP */
 @media (min-width:768px){
-  .footer-row{
-    align-items:flex-end;
-  }
-
+  .footer-row{ align-items:flex-end; }
   .footer-right{
     display:flex;
     justify-content:flex-end;
   }
 }
 
-/* ANIMAZIONI */
-
-@keyframes hero-fade-in{
-  from{
-    opacity:0;
-    transform:translateY(18px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
+/* FOOTER TABLET */
+@media (max-width:768px){
+  .footer-logo{
+    text-align:left;
+    margin-bottom:1rem;
   }
 }
 
+
+/* =========================================================
+   ANIMAZIONI
+   ========================================================= */
+
+   /* fade morbido per l’hero */
+@keyframes hero-fade-in{
+  from{ opacity:0; transform:translateY(18px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* fade morbido per le sezioni principali */
 @keyframes section-fade-in{
-  from{
-    opacity:0;
-    transform:translateY(12px);
+  from{ opacity:0; transform:translateY(12px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* animazione logo EF: bounce + glow */
+@keyframes logo-bounce-glow{
+  0%, 100%{
+    transform:translateY(0) scale(1);
+    filter:drop-shadow(0 0 0 rgba(255,255,255,0));
   }
-  to{
-    opacity:1;
-    transform:translateY(0);
+  35%{
+    transform:translateY(-3px) scale(1.04);
+    filter:drop-shadow(0 0 8px rgba(255,255,255,0.8));
+  }
+  55%{
+    transform:translateY(0) scale(1);
+    filter:drop-shadow(0 0 4px rgba(255,255,255,0.4));
   }
 }
 
@@ -627,154 +888,49 @@ main{
   animation-fill-mode:backwards;
 }
 
-/* NAV MOBILE (menu hamburger) */
+/* =========================================================
+   BACKGROUND FINALE DIETRO CONTATTI E FOOTER
+   ========================================================= */
 
-@media (max-width:575.98px){
-
-  .nav-toggle-icon{
-    display:inline-block;
-  }
-
-  .nav-links{
-    position:absolute;
-    right:0;
-    top:100%;
-    margin-top:0.4rem;
-    padding:0.6rem 1.1rem;
-    background:#000;
-    border:1px solid rgba(255,255,255,0.25);
-    border-radius:0.25rem;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:0.45rem;
-    display:none;
-    z-index:900;
-  }
-
-  .nav-links a{
-    font-size:0.78rem;
-  }
-
-  .nav-toggle-input:checked + .nav-toggle-icon + .nav-links{
-    display:flex;
-  }
-}
-/* FIX LAYOUT BLOCCO UNIVERSITARIO (DESKTOP) */
-
-@media (min-width: 992px){
-
-  /* Contenitore dei due elementi: testo + immagine */
-  .uni-main-row{
-    display:flex;
-    align-items:center;         /* allineamento verticale perfetto */
-    justify-content:space-between;
-  }
-
-  /* TESTO a sinistra, larghezza controllata */
-  .uni-text{
-    flex:0 0 48%;               /* prende circa meta' spazio */
-    max-width:48%;
-    padding-right:2.5rem;
-  }
-
-  /* IMMAGINE a destra */
-  .uni-image{
-    flex:0 0 48%;               /* meta'spazio */
-    max-width:48%;
-  }
-
-  /* l’immagine non schiaccia il testo */
-  .uni-portrait img{
-    width:100%;
-    height:auto;
-    object-fit:cover;
-  }
+.end-bg{
+  position:relative;
+  min-height:100vh;
+  background-image:url("imgs/Palms_end.jpg"); /* <-- tua foto */
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
 }
 
-/* UNI – allineo il link sotto l'immagine a destra in versione desktop */
-@media (min-width: 992px) {
-  .uni-more-row{
-    display:flex;
-    justify-content:flex-end;      /* spinge il contenuto verso destra */
-  }
-
-  .uni-more-row .col-12{
-    flex:0 0 48%;                  /* stessa larghezza dell'immagine */
-    max-width:48%;
-    text-align:right;              /* testo allineato a destra */
-  }
-
-  .uni-more-link{
-    text-align:right;
-  }
+/* overlay nero con sfumatura dall’alto */
+.end-bg::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 20%,
+    rgba(0,0,0,0.4) 45%,
+    rgba(0,0,0,0) 70%
+  );
+  pointer-events:none;
+  z-index:1;
 }
 
-/* LOGO HEADER */
-.logo-img {
-  height: 35px;      
-  width: auto;
-  display: block;
+/* contenuti sopra l’immagine */
+.end-bg > *{
+  position:relative;
+  z-index:2;
 }
 
-.logo-img{
-  display:block;
-  height:clamp(32px, 3.2vw, 52px);   /* più grande del footer e cresce proporzionale con lo schermo */
-  width:auto;
-  transform-origin:center;
-  animation:logo-bounce-glow 2.6s ease-in-out infinite;
-}
-/* ANIMAZIONE LOGO */
-
-@keyframes logo-bounce-glow{
-  0%, 100%{
-    transform:translateY(0) scale(1);
-    filter:drop-shadow(0 0 0 rgba(255,255,255,0.0));
-  }
-
-  35%{
-    transform:translateY(-3px) scale(1.04);           /* piccolo salto */
-    filter:drop-shadow(0 0 8px rgba(255,255,255,0.8)); /* brillio */
-  }
-
-  55%{
-    transform:translateY(0) scale(1);
-    filter:drop-shadow(0 0 4px rgba(255,255,255,0.4));
-  }
+/* mostra la foto DIETRO contatti e footer */
+.end-bg .contact-section,
+.end-bg .site-footer{
+  background: transparent !important;
 }
 
-
-/* LOGO FOOTER */
-.logo-img-footer {
-  height: 40px;      /* leggermente più grande */
-  width: auto;
-  margin-bottom: 1rem;
-}
-
-.logo-img-footer{
-  display:block;
-  height:clamp(20px, 2.2vw, 34px);   /* sempre più piccolo del logo header */
-  width:auto;
-  transform-origin:center;
-  animation:logo-bounce-glow 2.6s ease-in-out infinite;
-}
-
-/* Footer ancora più piccolo in mobile */
-@media (max-width:575.98px){
-  .logo-img{
-    height:36px;       /* header un po' più grande anche su mobile */
-  }
-
-  .logo-img-footer{
-    height:22px;       /* footer più piccolo su mobile */
-  }
-}
-
-
-/* Centra nella versione mobile */
-@media (max-width: 768px) {
-  .footer-logo {
-    text-align: left;
-    margin-bottom: 1rem;
-  }
+/* linea del footer */
+.end-bg .site-footer{
+  border-top: 1px solid rgba(255,255,255,0.18);
 }
 
