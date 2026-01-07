@@ -165,7 +165,7 @@ main{
 .hero-section{
   position:relative;
   min-height:calc(100vh - var(--header-h));
-  background-image:url("imgs/img_header.jpg");
+  background-image:url("imgs/img_header.webp");
   background-repeat:no-repeat;
   background-size:cover;
   background-position:center;
@@ -895,7 +895,7 @@ main{
 .end-bg{
   position:relative;
   min-height:100vh;
-  background-image:url("imgs/palms_end.jpg"); /* <-- tua foto */
+  background-image:url("imgs/palms_end.webp"); /* <-- tua foto */
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
