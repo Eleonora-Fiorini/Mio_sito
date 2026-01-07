@@ -165,7 +165,7 @@ main{
 .hero-section{
   position:relative;
   min-height:calc(100vh - var(--header-h));
-  background-image:url("imgs/IMG_header.jpg");
+  background-image:url("imgs/img_header.jpg");
   background-repeat:no-repeat;
   background-size:cover;
   background-position:center;
