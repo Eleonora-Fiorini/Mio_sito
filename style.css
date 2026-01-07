@@ -895,7 +895,7 @@ main{
 .end-bg{
   position:relative;
   min-height:100vh;
-  background-image:url("imgs/Palms_end.jpg"); /* <-- tua foto */
+  background-image:url("imgs/palms_end.jpg"); /* <-- tua foto */
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
