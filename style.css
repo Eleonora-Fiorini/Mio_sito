@@ -252,10 +252,7 @@ main{
   object-fit:cover;
 }
 
-/* big video ( prima delle categorie (foto Riccione)) */
-.big-img-wrapper{
-  margin-top:2.5rem;
-}
+
 
 /* Video responsive: mantiene il centro in mobile */
 .big-img-wrapper video{
@@ -278,9 +275,10 @@ main{
     height:500px;
     overflow:hidden;
   }
-  .big-img-wrapper video{
+
+ .big-img-wrapper video{
+    width:100%;
     height:100%;
-    width:auto;
     object-fit:cover;
     object-position:center;
   }
@@ -934,3 +932,12 @@ main{
   border-top: 1px solid rgba(255,255,255,0.18);
 }
 
+/* VIDEO FULLSCREEN MARGINI UGUALI L R */
+.about-big-img{
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+}
